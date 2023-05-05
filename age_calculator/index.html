@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- Bootstrap CDN File -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Age Calculator</title>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3>Age Calculator</h3>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" class="form-control" id="dob">
+                        </div>
+                        <div class="form-group">
+                            <button id="calculateAge" type="button" class="btn btn-primary btn-block">Calculate
+                                Age
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <label for="age">Your Age is:</label>
+                            <input type="text" class="form-control font-weight-bold " id="age" readonly>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- External JavaScript File -->
+<script src="./script.js"></script>
+</body>
+</html>
