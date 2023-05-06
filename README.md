@@ -1,1 +1,1 @@
-# 100-Project Vanilla JavaScript
+# 100-Project Using JavaScript
