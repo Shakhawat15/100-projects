@@ -1,35 +1,59 @@
-function getWeather() {
-    const cityInput = document.getElementById('cityInput');
-    const cityName = document.getElementById('cityName');
-    const temperature = document.getElementById('temperature');
-    const description = document.getElementById('description');
-    const weatherInfo = document.getElementById('weatherInfo');
+const cityInput = document.querySelector('#cityInput');
+const btn = document.querySelector('.btn');
+const city = document.querySelector('#cityName');
+const date = document.querySelector('#date');
+const temperature = document.querySelector('#temperature');
+const weather = document.querySelector('#weather');
+const tempRange = document.querySelector('#temp-range');
+const weatherInfo = document.querySelector('#weatherInfo');
+const error = document.querySelector('#error');
 
-    const apiKey = '28fd15358cdecbc1a1dfef367e71acef'; // Replace with your own API key
-    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput.value}&appid=${apiKey}&units=metric`;
+/**
+ * Create getDate() function for showing date
+ * @returns {`${string}, ${number}, ${string}, ${number}`}
+ */
+const getDate = () => {
+    // Declare some variable
+    const d = new Date(); // Current date
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']; // Days Array
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; // Months Array
+    const day = days[d.getDay()]; // Get day name
+    const date = d.getDate(); // Get date
+    const month = months[d.getMonth()]; // Get month name
+    const year = d.getFullYear(); // Get year
+    // Return the day, date, month and year
+    return `${day}, ${date}, ${month}, ${year}`;
+};
 
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            if (data.cod === '404') {
-                cityName.textContent = 'City not found';
-                temperature.textContent = '';
-                description.textContent = '';
-                weatherInfo.style.display = 'block';
-            } else {
-                cityName.textContent = data.name;
-                temperature.textContent = `Temperature: ${data.main.temp}°C`;
-                description.textContent = `Description: ${data.weather[0].description}`;
-                weatherInfo.style.display = 'block';
-            }
-        })
+const getData = () => {
+    const api = {
+        key: "28fd15358cdecbc1a1dfef367e71acef",
+        base: "https://api.openweathermap.org/data/2.5/"
+    };
+    fetch(`${api.base}weather?q=${cityInput.value}&units=metric&appid=${api.key}`)
+        .then(res => res.json())
+        .then(displayData)
         .catch(error => {
             console.log('Error:', error);
-            cityName.textContent = 'Error fetching weather data';
-            temperature.textContent = '';
-            description.textContent = '';
-            weatherInfo.style.display = 'block';
+            error.textContent = 'An error occurred while fetching the weather data.';
+            error.style.display = 'block';
         });
+};
 
-    cityInput.value = '';
+btn.addEventListener('click', getData);
+
+const displayData = (res) => {
+    console.log(res)
+    if (res.cod === '404') {
+        error.textContent = 'Please enter a valid city name!';
+        error.style.display = 'block';
+        weatherInfo.style.display = 'none';
+    }
+    city.innerHTML = `${res.name}, ${res.sys.country}`;
+    date.innerHTML = getDate();
+    temperature.innerHTML = `Temp: ${res.main.temp}°C`;
+    weather.innerHTML = `Weather: ${res.weather[0].main}`;
+    tempRange.innerHTML = `Temp Range: ${res.main.temp_min}°C / ${res.main.temp_max}°C`;
+    weatherInfo.style.display = 'block';
+    error.style.display = 'none';
 }
